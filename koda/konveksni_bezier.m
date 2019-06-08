@@ -12,8 +12,13 @@ function Tp = konveksni_bezier(B1, B2, tol)
 %Tp je tabela presecišc s tockami v stolpcih.
 
   Tp = [];
+  % konveksne ovojnice
   [K1, d1] = konveksna(B1);
   [K2, d2] = konveksna(B2);
+  % odstranimo podvojeno zadnjo tocko (da funkcija
+  % mnogokotnika_sekata dela brez singularnosti
+  K1 = K1(:,1:end-1);
+  K2 = K2(:,1:end-1);
   
   % ce se ogrinjaci ne sekata, prenehamo
   if ~mnogokotnika_sekata(K1, K2)
