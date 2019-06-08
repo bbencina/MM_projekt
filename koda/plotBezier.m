@@ -10,9 +10,12 @@ function plotBezier(b, clr)
     end
     if clr == 1
         clf
+        hold on
     end
-    hold on
+    
     plot(b(1, :), b(2, :), '-o');
     plot(fs(1, :), fs(2, :));
-    hold off
+    if clr == 1
+        hold off
+    end
 end
