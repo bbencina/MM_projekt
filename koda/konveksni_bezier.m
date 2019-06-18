@@ -18,8 +18,8 @@ function Tp = konveksni_bezier(B1, B2, tol)
 
   % odstranimo podvojeno zadnjo tocko (da funkcija
   % mnogokotnika_sekata dela brez singularnosti
-  K1 = K1(:,1:end-1);
-  K2 = K2(:,1:end-1);
+%  K1 = K1(:,1:end-1);
+%  K2 = K2(:,1:end-1);
   
   % ce se ogrinjaci ne sekata, prenehamo
   if ~mnogokotnika_sekata(K1, K2)
