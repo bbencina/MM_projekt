@@ -1,4 +1,4 @@
-n = 4; m = 4;
+n = 10; m = 10;
 
 [x1, y1] = ginput(n);
 [x2, y2] = ginput(m);
