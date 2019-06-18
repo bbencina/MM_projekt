@@ -1,0 +1,5 @@
+ccw:
+https://www.quora.com/What-is-the-CCW-function
+
+Graham scan:
+https://en.wikipedia.org/wiki/Graham_scan

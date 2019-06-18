@@ -15,6 +15,7 @@ function Tp = konveksni_bezier(B1, B2, tol)
   % konveksne ovojnice
   [K1, d1] = konveksna(B1);
   [K2, d2] = konveksna(B2);
+
   % odstranimo podvojeno zadnjo tocko (da funkcija
   % mnogokotnika_sekata dela brez singularnosti
   K1 = K1(:,1:end-1);
