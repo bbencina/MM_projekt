@@ -121,6 +121,23 @@ Pošteno je še opomniti, da programska jezika MATLAB in Octave že imata implem
 
 \section{Presečišča mnogokotnikov}
 
+Sedaj, ko smo definirali ovojnice, se lahko vprašamo, kdaj se dve ovojnici sekata. Ker sta oba obravnava tipa v svojem bistvu mnogokotnika, nas bo v tem poglavju zanimalo, natanko kdaj se dva mnogokotnika sekata, torej kdaj imata neprazen presek.
+
+\begin{matematika}{Izrek 3.1}
+Mnogokotnika $A$ in $B$ imata neprazen presek natanko tedaj, ko se seka najmanj en par njunih stranic ali pa eden vsebuje kakšno oglišče drugega.
+\end{matematika}
+
+\begin{matematika}{Dokaz}
+Če se seka en par stranic mnogokotnikov $A$ in $B$, potem imata očitno neprazen presek.
+Zato privzemimo, da se poljubni dve stranici mnogokotnikov $A$ in $B$ ne sekata. Potem je bodisi en vsebovan v drugem bodisi sta si disjunktna. Če je en vsebovan v drugem, je presek kar manjši od obeh pravokotnikov. Če sta si disjunktna, je njun presek po definiciji prazen.
+
+S tem je izrek dokazan.
+\end{matematika}
+
+To idejo lahko sedaj implementiramo v preprost algoritem, ki vrne $1$, če se podana mnogokotnika sekata, in $0$, če se ne.
+
+Najprej z vgrajeno funkcijo preverimo, če se katero izmed oglišč enega mnogokotnika nahaja v drugem, nato pa v skrajnem primeru preverimo še, če se sekata kateri njuni stranici. Algoritem se nahaja v datoteki \emph{mnogokotnika\_sekata.m}. Uporablja pomožno funkcijo \emph{presek\_daljic}, ki se nahaja v istoimenski datoteki.
+
 \section{Subdivizija Bezierjeve krivulje}
 
 \section{Presečišča dveh Bezierovih krivulj}
