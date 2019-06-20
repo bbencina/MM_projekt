@@ -6,15 +6,7 @@ function P = pravokotnik(b)
 
 P = zeros(2,4);
 
-% IDEJA:
-% 1. Poiscemo tocki z najvecjo medsebojno razdaljo
-%   ( tvorita srednjico pravokotnika)
-% 2. Poiscemo najvecjo razdaljo preostalih tock do daljice, ki jo
-%   dolocata tocki iz prejsnjega koraka
-% 3. Oglisca dobimo s translacijo tock iz koraka 1 za dolzino (iz koraka 2)
-%   v smeri normale. 
-
-% 1.
+% poiščemo točki z največjo medsebojno razdaljo
 n = size(b,2) - 1;
 d = 0;
 indeksa_tock = [0 0];
@@ -35,15 +27,15 @@ end
 s = b(:,indeksa_tock(1)) - b(:,indeksa_tock(2));
 
 
-% 2.
-d_premice = 0; % najvecja razdalja preostalih tock do premice
+
+d_premice = 0; % največja razdalja preostalih točk do srednjice
 
 for k = 1:(n+1)
     if (k == indeksa_tock(1)) || (k == indeksa_tock(2))
         continue
     else
-        % razdalja med tocko in premico (zaradi uporabe vektorskega
-        % produkta vektorje vlozimo v R^3)
+        % razdalja med točko in premico (zaradi uporabe vektorskega
+        % produkta vektorje vložimo v R^3)
         
         b1 = [b(:,k);0];
         b2 = [b(:,indeksa_tock(1));0];
@@ -63,7 +55,7 @@ end
 normala = [0 -1;1 0]*s;
 normala = normala/norm(normala);
 
-
+% definiramo oglišča pravokotnika
 P(:,1) = b(:,indeksa_tock(1)) + d_premice*normala;
 P(:,4) = b(:,indeksa_tock(1)) - d_premice*normala;
 P(:,2) = b(:,indeksa_tock(2)) + d_premice*normala;

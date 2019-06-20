@@ -26,7 +26,7 @@
 \renewcommand{\P}{\mathbb{P}}
 
 \newenvironment{matematika}[1]{
-\textcolor{bostonuniversityred}{\underline{\textsc{#1:}}}
+{\underline{\textsc{#1:}}}
 }{
 }
 
@@ -36,7 +36,7 @@
 %naslov
 \begin{titlepage}
 \centering
-\textbf{\Huge{Presečišča Bezierjevih krivulj}}
+\textbf{\Huge{Presečišča Bezierovih krivulj}}
 \vfill
 \textbf{\LARGE{Pristop s subdivizijskim algoritmom}}
 \vfill\vfill
@@ -59,18 +59,78 @@
 
 \section{Uvod}
 
+Denimo, da imamo dva robota, ki se gibljeta vsak po svoji Bezierovi krivulji. Radi bi izračunali, ali se robota kdaj srečata. Da rešimo problem, bomo očitno potrebovali presečišča teh krivulj, saj če se krivulji ne sekata, se tudi robotka gotovo nikoli ne srečata.
+
+V tem delu bomo obravnavali subdivizijski algoritem za izračun presečišč dveh Bezierovih krivulj. Najprej si bomo ogledali ovojnico množice kontrolnih točk Bezierove krivulje. Natančneje, našli bomo pravokotnik, ki vsebuje vse kontrolne točke. V naslednjem koraku bomo implementirali algoritem, ki nam bo vrnil konveksno ovojnico množice kontrolnih točk, torej najmanjši konveksni mnogokotnik, ki vsebuje vse kontrolne točke. Nato se bomo vprašali, kdaj se dva mnogokotnika sekata. To bo naš kriterij sekanja, če se dve ovojnici ne sekata, se tudi krivulji ne bosta. Nato bomo definirila subdivizijo Bezierove krivulje in implementirali rekurzivni algoritem, ki bo poiskal vsa presečišča.
+
+Poleg osnovne ideje v ozadju posameznega koraka bodo podani tudi sklici na kodne datoteke, ki bodo priložene.
+
 \section{Ovojnice}
+
+V tem poglavju si bomo natančneje ogledali dva tipa ovojnic končne množice kontrolnih točk. To sta pravokotnik, ki vsebuje vse kontrolne točke, in konveksna ovojnica. Kasneje si bomo s presečišči ovojnic pomagali pri iskanju presečišč krivulj. Potrebujemo naslednji izrek.
+
+\begin{matematika}{Izrek 2.1}
+Vsaka Bezierova krivulja je v celoti vsebovana v konveksni ovojnici svojih kontrolnih točk.
+\end{matematika}
+
+\begin{matematika}{Dokaz}
+Izrek sledi direktno iz konstrukcije Bezierove krivulje z deCasteljau-ovim algoritmom. Vsaka točka na Bezierovi krivulji je po deCasteljau-ovem algoritmu konveksna kombinacija kontrolnih točk in zato po definiciji vsebovana v konveksni ovojnici.
+\end{matematika}
+
+\begin{matematika}{Posledica 2.2}
+Vsaka množica, ki vsebuje vse kontrolne točke Bezierove krivulje, vsebuje tudi celotno krivuljo.
+\end{matematika}
+
+Zadnja posledica nam pove, da za ovojnico lahko uporabimo poljuben lik, ki vsebuje vse kontrolne točke, torej lahko vzamemo računsko najlažjega. Osredotočili se bomo na pravokotnik.
+
+\subsubsection{Pravokotna ovojnica}
+Iščemo torej smiselen pravokotnik, ki bo vseboval vse kontrolne točke Bezierove krivulje. Hkrati želimo, da je dovolj majhen, da ga lahko kasneje uporabimo za kriterij sekanja, ko bomo krivuljo smiselno manjšali.
+
+Ideja je naslednja:
+\begin{itemize}
+\item Najdemo dve kontrolni točki $P$ in $Q$, ki imata največjo medsebojno razdaljo.
+\item Vektor $s$ od ene do druge točke predstavlja srednjico pravokotnika.
+\item Poiščemo tisto izmed preostalih kontrolnih točk, ki ima najdaljšo pravokotno razdaljo do premice, ki jo definirata vektor $s$ in ena izmed točk $P$ in $Q$.
+\item Vektor $b$ naj bo vektor te pravokotne razdalje.
+\item Oglišča iskanega pravokotnika so potem $P + b$, $P - b$, $Q + b$, $Q - b$.
+\end{itemize}
+
+Glavna lastnost tako definiranega pravokotnika je, njegova velikost odvisna le od razdalj med kontrolnimi točkami. Če bomo krivuljo torej pravilno manjšali, bomo dobili manjši pravokotnik
+
+Implementiran algoritem se nahaja v datoteki \emph{pravokotnik.m}.
+
+\subsection{Konveksna ovojnica}
+Vseeno pa bi za pravo mero sekanja radi uporabili najmanjšo množico, ki vsebuje vse kontrolne točke, torej njihovo konveksno ovojnico. Za končno množico točk $B$ je to vedno konveksni mnogokotnik, čigar oglišča so urejena podmnožica $K \subseteq B$. Algoritmov za iskanje konveksne ovojnice množice točk je mnogo, vsak s svojimi prednostmi in slabostmi, osredotočili pa se bomo na \emph{Grahamov algoritem} (angl. \emph{Graham Scan}). Razloga za to sta dva. Prvič, ideja algoritma je jedrnata, intuitivna in lahko razumljiva. Drugič, časovna zahtevnost algoritma je med bolj optimalnimi. S preprostim razmislekom lahko utemeljimo, da je hitrost iskanja konveksne ovojnice v optimalnem primeru navzdol omejena s sortiranjem množice točk $B$. Konveksne ovojnice torej ne moremo najti hitreje kot $\mathcal{O}(n\log{}n)$, kjer je $n = |B|$. Časovna zahtevnost Grahamovega algoritma za iskanje konveksne ovojnice pa je približno enaka $\mathcal{O}(n\log{}n)$.
+
+Ideja algoritma je naslednja:
+\begin{itemize}
+\item Najdemo najbolj levo najnižjo točko $P_0 \in B$.
+\item Vse ostale točke razvrstimo po polarnem kotu vektorja $P_i - P_0$, kjer $i = 1, \dots, n$.
+\item Deklariramo prazen sklad, na katerega bomo nalagali trenutne kandidate za oglišča konveksne ogrinjače.
+\item Sprehodimo se čez urejen seznam točk in preverimo, da se z vsako novo točko premaknemo v nasprotni smeri urinega kazalca. Če to ni res, sklad praznimo dokler ni za trenutno točko to izpolnjeno.
+\item Ko pregled končamo, nam na skladu ostane urejen seznam oglišč konveksne ovojnice.
+\end{itemize}
+
+Vredno je omeniti, da je izbira spodnje leve točke popolnoma arbitrarna. Zagotavlja nam le, da bo polarni kot vsakega vektorja $P_i - P_0$, kjer $i = 1, \dots, n$, vedno med $0$ in $\pi$, s čimer se izognemo problemom z negativnimi koti ter poskrbimo, da bo točka $P_0$ vedno oglišče ovojnice. S podobnim argumentom bi lahko izbrali poljubno robno točko in primerno prilagodili sortiranje kotov.
+
+Ideja algoritma je torej, da si izberemo začetno oglišče in nato v nasprotni smeri urinega kazalca tvorimo pozitivno orientiran konveksni mnogokotnik.
+
+Implementiran in dobro komentiran algoritem se nahaja v datoteki \emph{grahamScan.m}, funkcijo pa lahko dalje grafično preizkušate z datoteko \emph{testGraham.m}.
+
+Pošteno je še opomniti, da programska jezika MATLAB in Octave že imata implementirano funkcijo \emph{convhull}, ki nam vrne indekse točk konveksne ovojnice množice točk $B$.
 
 \section{Presečišča mnogokotnikov}
 
 \section{Subdivizija Bezierjeve krivulje}
 
-\section{Presečišča dveh Bezierjevih krivulj}
+\section{Presečišča dveh Bezierovih krivulj}
 
 \section{Kdaj se robota srečata}
 
 \section{Zaključek}
 
-\section*{Viri}
+\begin{thebibliography}{9}
+\bibitem{bib:lol} kk
+\end{thebibliography}
 
 \end{document}
