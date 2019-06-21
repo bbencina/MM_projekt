@@ -83,7 +83,7 @@ Vsaka množica, ki vsebuje vse kontrolne točke Bezierove krivulje, vsebuje tudi
 
 Zadnja posledica nam pove, da za ovojnico lahko uporabimo poljuben lik, ki vsebuje vse kontrolne točke, torej lahko vzamemo računsko najlažjega. Osredotočili se bomo na pravokotnik.
 
-\subsubsection{Pravokotna ovojnica}
+\subsection{Pravokotna ovojnica}
 Iščemo torej smiselen pravokotnik, ki bo vseboval vse kontrolne točke Bezierove krivulje. Hkrati želimo, da je dovolj majhen, da ga lahko kasneje uporabimo za kriterij sekanja, ko bomo krivuljo smiselno manjšali.
 
 Ideja je naslednja:
@@ -139,6 +139,8 @@ To idejo lahko sedaj implementiramo v preprost algoritem, ki vrne $1$, če se po
 Najprej z vgrajeno funkcijo preverimo, če se katero izmed oglišč enega mnogokotnika nahaja v drugem, nato pa v skrajnem primeru preverimo še, če se sekata kateri njuni stranici. Algoritem se nahaja v datoteki \emph{mnogokotnika\_sekata.m}. Uporablja pomožno funkcijo \emph{presek\_daljic}, ki se nahaja v istoimenski datoteki.
 
 \section{Subdivizija Bezierjeve krivulje}
+
+
 
 \section{Presečišča dveh Bezierovih krivulj}
 
