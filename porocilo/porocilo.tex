@@ -65,11 +65,22 @@ V tem delu bomo obravnavali subdivizijski algoritem za izračun presečišč dve
 
 Poleg osnovne ideje v ozadju posameznega koraka bodo podani tudi sklici na kodne datoteke, ki bodo priložene.
 
+\section{Bezierove krivulje}
+
+Najprej ponovimo, kaj natančno je Bezierova krivulja.
+
+\begin{matematika}{Definicija 2.1}
+Bezierova krivulja $B\colon [0, 1] \to \mathbb{R}^2$ določena z množico kontrolnih točk $B = \lbrace B_i \rbrace_{i = 0}^n$ je definirana z enačbo
+\[ B(t) = \sum_{i = 0}^n b_{i,n}(t)B_i, \]
+kjer so $b_{i,n}(t) = \binom{n}{i}t^{i}(1-t)^{n-i}$ Bernsteinovi bazni polinomi.
+\end{matematika}
+
+Ta definicija je ekvivalentna definiciji z de Casteljaujevim algoritmom, ki je ne bomo posebej navajali, algoritem pa se nahaja v datoteki \emph{deCasteljau.m}.
 \section{Ovojnice}
 
 V tem poglavju si bomo natančneje ogledali dva tipa ovojnic končne množice kontrolnih točk. To sta pravokotnik, ki vsebuje vse kontrolne točke, in konveksna ovojnica. Kasneje si bomo s presečišči ovojnic pomagali pri iskanju presečišč krivulj. Potrebujemo naslednji izrek.
 
-\begin{matematika}{Izrek 2.1}
+\begin{matematika}{Izrek 3.1}
 Vsaka Bezierova krivulja je v celoti vsebovana v konveksni ovojnici svojih kontrolnih točk.
 \end{matematika}
 
@@ -77,7 +88,7 @@ Vsaka Bezierova krivulja je v celoti vsebovana v konveksni ovojnici svojih kontr
 Izrek sledi direktno iz konstrukcije Bezierove krivulje z deCasteljau-ovim algoritmom. Vsaka točka na Bezierovi krivulji je po deCasteljau-ovem algoritmu konveksna kombinacija kontrolnih točk in zato po definiciji vsebovana v konveksni ovojnici.
 \end{matematika}
 
-\begin{matematika}{Posledica 2.2}
+\begin{matematika}{Posledica 3.2}
 Vsaka množica, ki vsebuje vse kontrolne točke Bezierove krivulje, vsebuje tudi celotno krivuljo.
 \end{matematika}
 
@@ -123,7 +134,7 @@ Pošteno je še opomniti, da programska jezika MATLAB in Octave že imata implem
 
 Sedaj, ko smo definirali ovojnice, se lahko vprašamo, kdaj se dve ovojnici sekata. Ker sta oba obravnava tipa v svojem bistvu mnogokotnika, nas bo v tem poglavju zanimalo, natanko kdaj se dva mnogokotnika sekata, torej kdaj imata neprazen presek.
 
-\begin{matematika}{Izrek 3.1}
+\begin{matematika}{Izrek 4.1}
 Mnogokotnika $A$ in $B$ imata neprazen presek natanko tedaj, ko se seka najmanj en par njunih stranic ali pa eden vsebuje kakšno oglišče drugega.
 \end{matematika}
 
@@ -138,7 +149,7 @@ To idejo lahko sedaj implementiramo v preprost algoritem, ki vrne $1$, če se po
 
 Najprej z vgrajeno funkcijo preverimo, če se katero izmed oglišč enega mnogokotnika nahaja v drugem, nato pa v skrajnem primeru preverimo še, če se sekata kateri njuni stranici. Algoritem se nahaja v datoteki \emph{mnogokotnika\_sekata.m}. Uporablja pomožno funkcijo \emph{presek\_daljic}, ki se nahaja v istoimenski datoteki.
 
-\section{Subdivizija Bezierjeve krivulje}
+\section{Subdivizija Bezierove krivulje}
 
 
 
