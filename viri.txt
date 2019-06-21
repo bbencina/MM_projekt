@@ -3,3 +3,6 @@ https://www.quora.com/What-is-the-CCW-function
 
 Graham scan:
 https://en.wikipedia.org/wiki/Graham_scan
+
+Slika deCasteljau:
+https://en.wikipedia.org/wiki/De_Casteljau%27s_algorithm
