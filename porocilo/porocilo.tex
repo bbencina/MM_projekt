@@ -141,7 +141,7 @@ Vredno je omeniti, da je izbira spodnje leve točke popolnoma arbitrarna. Zagota
 Ideja algoritma je torej, da si izberemo začetno oglišče in nato v nasprotni smeri urinega kazalca tvorimo pozitivno orientiran konveksni mnogokotnik.
 
 
-Implementiran in dobro komentiran algoritem se nahaja v datoteki \emph{grahamScan.m}, funkcijo pa lahko dalje grafično preizkušate z datoteko \emph{testGraham.m}. Primer je prikazan na sliki \ref{fig:graham}.
+Implementiran in dobro komentiran algoritem se nahaja v datoteki \emph{grahamScan.m}, funkcijo pa lahko dalje grafično preizkušamo z datoteko \emph{testGraham.m}. Primer je prikazan na sliki \ref{fig:graham}. Algoritem uporablja tudi pomožno funkcijo, ki nam pove, ali se še vedno premikamo v nasprotni smeri urinega kazalca. Implementirana je v datoteki \emph{ccw.m}.
 
 
 Pošteno je še opomniti, da programska jezika MATLAB in Octave že imata implementirano funkcijo \emph{convhull}, ki nam vrne indekse točk konveksne ovojnice množice točk $B$.
@@ -165,11 +165,13 @@ Najprej z vgrajeno funkcijo preverimo, če se katero izmed oglišč enega mnogok
 
 \section{Subdivizija Bezierove krivulje}
 
-Recimo, da imamo Bezierovo krivuljo, podano z množico kontrolnih točk $B$, ki je parametrizirana na intervalu $[0, 1]$, radi pa bi dobili kontrolne točke dela krivulje, na katerem parameter teče po intervalu $[0, c]$ za nek $0 < c < 1$. Tej podkrivulji se reče \emph{subdivizija} Bezierove krivulje pri parametru $c$. Naredimo lahko še več, pri parametru $c$ nas zanimajo kontrolne točke dveh podkrivulj: tiste, pri kateri parameter teče po intervalu $[0, c]$, in tiste, pri kateri parameter teče po intervalu $[c, 1]$. Na srečo nam kontrolne točke obeh podkrivulji da de Casteljaujev algoritem pri parametru $c$. Kontrolne točke prvega dela krivulje so prvi elementi vsakega stolpca v algoritemski shemi, kontrolne točke drugega pa zadnji elementi vsakega stolpca, kot ilustrirano na spodnjem diagramu.
+Recimo, da imamo Bezierovo krivuljo, podano z množico kontrolnih točk $B$, ki je parametrizirana na intervalu $[0, 1]$, radi pa bi dobili kontrolne točke dela krivulje, na katerem parameter teče po intervalu $[0, c]$ za nek $0 < c < 1$. Tej podkrivulji se reče \emph{subdivizija} Bezierove krivulje pri parametru $c$. Naredimo lahko še več, pri parametru $c$ nas zanimajo kontrolne točke dveh podkrivulj: tiste, pri kateri parameter teče po intervalu $[0, c]$, in tiste, pri kateri parameter teče po intervalu $[c, 1]$. Na srečo nam kontrolne točke obeh podkrivulji da de Casteljaujev algoritem pri parametru $c$. Kontrolne točke prvega dela krivulje so prvi elementi vsakega stolpca v algoritemski shemi, kontrolne točke drugega pa zadnji elementi vsakega stolpca, kot ilustrirano na sliki \ref{fig:decastshema}.
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.5]{deCasteljau}
+\includegraphics[scale=0.6]{deCasteljau}
+\caption{Shema de Casteljaujevega algoritma. Dostopno na: \url{https://en.wikipedia.org/wiki/De_Casteljau\%27s\_algorithm}}
+\label{fig:decastshema}
 \end{figure}
 
 Funkcija, ki sprejme kontrolne točke Bezierove krivulje in parameter $c$ ter vrne kontrolne točke obeh subdivizijskih podkrivulj se nahaja v datoteki \emph{sub\_demo.m}.
@@ -177,7 +179,15 @@ Funkcija, ki sprejme kontrolne točke Bezierove krivulje in parameter $c$ ter vr
 
 \section{Presečišča dveh Bezierovih krivulj}
 
-Zlahka opazimo, da pri subdivizijskem parametru $c = \frac{1}{2}$ krivuljo ravno razpolovimo. Subdivizija nam torej omogoča, da na krivuljo apliciramo bisekcijo, s tem pa si bomo pomagali pri iskanju presečišč. Ideja subdivizijskega algoritma za iskanje presečišč je torej naslednja:
+Zlahka opazimo, da pri subdivizijskem parametru $c = \frac{1}{2}$ krivuljo ravno razpolovimo. Subdivizija nam torej omogoča, da na krivuljo apliciramo bisekcijo, s tem pa si bomo pomagali pri iskanju presečišč.
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.55]{konv}
+	\caption{Presečišči Bezierovih krivulj v grafičnem testnem okolju \emph{test\_konv}.}
+	\label{fig:konv}
+\end{figure}
+
+Ideja subdivizijskega algoritma za iskanje presečišč je torej naslednja:
 \begin{itemize}
 \item Okoli vsake od krivulj naredimo ovojnico.
 \item Če se ovojnici ne sekata, opustimo iskanje.
@@ -185,12 +195,6 @@ Zlahka opazimo, da pri subdivizijskem parametru $c = \frac{1}{2}$ krivuljo ravno
 \item Če sta obe ovojnici manjši od v naprej določene tolerance, dodamo središče ene od njiju v množico presečišč.
 \end{itemize}
 
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.55]{konv}
-	\caption{Presečišči Bezierovih krivulj v grafičnem testnem okolju \emph{test\_konv}.}
-	\label{fig:konv}
-\end{figure}
 
 Rekurzivna algoritma za pravokotno in konveksno ovojnico sta implementirana zaporedoma v datotekah \emph{pravokotni\_bezier.m} in \emph{konveksni\_bezier.m}.
 Zraven sta dodani še datoteki \emph{test\_prav.m} in \emph{test\_konv.m}, kjer lahko s pomočjo grafičnega vmesnika testiramo algoritem za pravokotno oziroma konveksno ovojnico.
@@ -207,7 +211,15 @@ Pojavi se tudi vprašanje, ali smo res izbrali računsko najmanj zahtevno ovojni
 Vsekakor pa je res, da je natančnost algoritma večja, če pri istih kontrolnih točkah izberemo tesnejšo ovojnico, nobena ovojnica pa v primeru Bezierovih krivulj ni za to bolj primerna kot konveksna.
 
 \begin{thebibliography}{9}
-\bibitem{bib:lol} kk
+
+\bibitem{bib:bez}
+E.~Žagar, \emph{Interpolacija s parametričnimi polinomskimi krivuljami}, skripta, verzija 6.~12.~2010
+
+\bibitem{bib:grahamscan}
+\emph{Graham Scan}, Wikipedia, pridobljeno 15.~6.~2019, dostopno na \url{https://en.wikipedia.org/wiki/Graham_scan}
+
+\bibitem{bib:ccw}
+\emph{What is the CCW function?}, Quora, pridobljeno 15.~6.~2019, dostopno na \url{https://www.quora.com/What-is-the-CCW-function}.
 \end{thebibliography}
 
 \end{document}
