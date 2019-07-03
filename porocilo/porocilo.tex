@@ -59,9 +59,9 @@
 
 \section{Uvod}
 
-Denimo, da imamo dva robota, ki se gibljeta vsak po svoji Bezierovi krivulji. Radi bi izračunali, ali se robota kdaj srečata. Da rešimo problem, bomo očitno potrebovali presečišča teh krivulj, saj če se krivulji ne sekata, se tudi robotka gotovo nikoli ne srečata.
+Denimo, da imamo dva robota, ki se gibljeta vsak po svoji Bezierovi krivulji. Radi bi izračunali, ali se robota kdaj srečata. Da rešimo problem, bomo očitno potrebovali presečišča teh krivulj, saj če se krivulji ne sekata, se tudi robota gotovo nikoli ne srečata.
 
-V tem delu bomo obravnavali subdivizijski algoritem za izračun presečišč dveh Bezierovih krivulj. Najprej si bomo ogledali ovojnico množice kontrolnih točk Bezierove krivulje. Natančneje, našli bomo pravokotnik, ki vsebuje vse kontrolne točke. V naslednjem koraku bomo implementirali algoritem, ki nam bo vrnil konveksno ovojnico množice kontrolnih točk, torej najmanjši konveksni mnogokotnik, ki vsebuje vse kontrolne točke. Nato se bomo vprašali, kdaj se dva mnogokotnika sekata. To bo naš kriterij sekanja, če se dve ovojnici ne sekata, se tudi krivulji ne bosta. Nato bomo definirila subdivizijo Bezierove krivulje in implementirali rekurzivni algoritem, ki bo poiskal vsa presečišča.
+Obravnavali subdivizijski algoritem za izračun presečišč dveh Bezierovih krivulj. Najprej si bomo ogledali ovojnico množice kontrolnih točk Bezierove krivulje. Natančneje, našli bomo pravokotnik, ki vsebuje vse kontrolne točke. V naslednjem koraku bomo implementirali algoritem, ki nam bo vrnil konveksno ovojnico množice kontrolnih točk, torej najmanjši konveksni mnogokotnik, ki vsebuje vse kontrolne točke. Nato se bomo vprašali, kdaj se dva mnogokotnika sekata. To bo naš kriterij sekanja; če se dve ovojnici ne sekata, se tudi krivulji ne bosta. Nato bomo definirali subdivizijo Bezierove krivulje in implementirali rekurzivni algoritem, ki bo poiskal vsa presečišča.
 
 Poleg osnovne ideje v ozadju posameznega koraka bodo podani tudi sklici na kodne datoteke, ki bodo priložene.
 
@@ -74,7 +74,7 @@ Bezierova krivulja $B\colon [0, 1] \to \mathbb{R}^2$ določena z množico kontro
 kjer so $b_{i,n}(t) = \binom{n}{i}t^{i}(1-t)^{n-i}$ Bernsteinovi bazni polinomi.
 \end{matematika}
 
-Ta definicija je ekvivalentna definiciji z de Casteljaujevim algoritmom, ki je ne bomo posebej navajali, algoritem pa se nahaja v datoteki \emph{deCasteljau.m}.
+Ta definicija je ekvivalentna definiciji z de Casteljaujevim algoritmom, ki je ne bomo posebej navajali, algoritem pa se nahaja v datoteki \emph{deCasteljau.m}. Na kratko de Casteljaujev algoritem pravi, da so točke ne Bezierovi krivulji natanko tiste, ki jih dobimo kot konveksno kombinacijo kontrolnih točk, kar pa je delno razvidno tudi iz oblike Bernsteinovih polinomov.
 \section{Ovojnice}
 
 V tem poglavju si bomo natančneje ogledali dva tipa ovojnic končne množice kontrolnih točk. To sta pravokotnik, ki vsebuje vse kontrolne točke, in konveksna ovojnica. Kasneje si bomo s presečišči ovojnic pomagali pri iskanju presečišč krivulj. Potrebujemo naslednji izrek.\\
@@ -82,7 +82,7 @@ V tem poglavju si bomo natančneje ogledali dva tipa ovojnic končne množice ko
 Vsaka Bezierova krivulja je v celoti vsebovana v konveksni ovojnici svojih kontrolnih točk.\\
 \end{matematika}
 \begin{matematika}{Dokaz}
-Izrek sledi direktno iz konstrukcije Bezierove krivulje z deCasteljau-ovim algoritmom. Vsaka točka na Bezierovi krivulji je po deCasteljau-ovem algoritmu konveksna kombinacija kontrolnih točk in zato po definiciji vsebovana v konveksni ovojnici. \hspace*{\fill} $\square$\\
+Izrek sledi direktno iz konstrukcije Bezierove krivulje z de Casteljaujevim algoritmom. Vsaka točka na Bezierovi krivulji je po de Casteljaujevim algoritmu konveksna kombinacija kontrolnih točk in zato po definiciji vsebovana v konveksni ovojnici. \hspace*{\fill} $\square$\\
 \end{matematika}
 \begin{matematika}{Posledica 3.2}
 Vsaka množica, ki vsebuje vse kontrolne točke Bezierove krivulje, vsebuje tudi celotno krivuljo.
@@ -161,7 +161,7 @@ S tem je izrek dokazan.\hspace*{\fill} $\square$
 
 To idejo lahko sedaj implementiramo v preprost algoritem, ki vrne $1$, če se podana mnogokotnika sekata, in $0$, če se ne.
 
-Najprej z vgrajeno funkcijo preverimo, če se katero izmed oglišč enega mnogokotnika nahaja v drugem, nato pa v skrajnem primeru preverimo še, če se sekata kateri njuni stranici. Algoritem se nahaja v datoteki \emph{mnogokotnika\_sekata.m}. Uporablja pomožno funkcijo \emph{presek\_daljic}, ki se nahaja v istoimenski datoteki.
+Najprej z vgrajeno funkcijo preverimo, če se katero izmed oglišč enega mnogokotnika nahaja v drugem, nato pa v skrajnem primeru preverimo še, če se sekata kateri njuni stranici. Algoritem se nahaja v datoteki \emph{mnogokotnika\_sekata.m}. Uporablja pomožno funkcijo \emph{presek\_daljic}, ki se nahaja v istoimenski datoteki in nam pove, ali se dve daljici sekata.
 
 \section{Subdivizija Bezierove krivulje}
 
