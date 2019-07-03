@@ -1,3 +1,5 @@
+% To je graficno testno okolje za preverjanje funkcije pravokotnik.
+
 % dolocimo koliko tock želimo
 n = 10;
 

@@ -1,15 +1,20 @@
 function [kontrolne1,kontrolne2] = sub_demo(b,c,risanje)
-% SUB_DEMO demonstrira en korak subdivizije za ravninsko
-% Bezierovo krivuljo. Pri tem je b tabela 2x(n+1) kontrolnih tock.
-% c je subdivizijski parameter 0 <= c <= 1.
+% Funkcija vrne kontrolne tocke obeh subdivizijskih podkrivulj pri parametru c.
+%
+% Vhodni podatki:
+%b je 2xn tabela kontrolnih tock s tockami v stolpcih,
+%c je subdivizijski parameter,
+%risanje je le flag, ki pove, ali se vse krivulje tudi narišejo (za normalno uporabo 0).
 
-    % deCasteljau z robnimi toèkami
     orig = b;
     n = size(b, 2);
     kontrolne1 = zeros(2, n);
     kontrolne2 = zeros(2, n);
+	% robne tocke se ujemajo
     kontrolne1(:, 1) = b(:, 1);
     kontrolne2(:, n) = b(:, n);
+	
+	% de Casteljau, shranjujemo robne tocke kont. trik.
     for i = 1:n-1
         bb = (1-c).*b(:, 1:end-1) + c.*b(:, 2:end);
         kontrolne1(:, i+1) = bb(:,1);
@@ -17,6 +22,7 @@ function [kontrolne1,kontrolne2] = sub_demo(b,c,risanje)
         b = [bb [0;0]];
     end
     
+	% morebitno risanje
     if risanje == 1
         hold on
         axis equal

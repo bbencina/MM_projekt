@@ -1,13 +1,20 @@
+% To je graficno testno okolje za preverjanje funkcije konveksni_bezier.
+
+% stevilo tock za testiranje
 n = 10; m = 10;
 
+% zajamemo tocke
 [x1, y1] = ginput(n);
 [x2, y2] = ginput(m);
 
+% sestavimo skupaj
 B1 = [x1' ; y1'];
 B2 = [x2' ; y2'];
 
+% presecisca
 Tp = konveksni_bezier(B1, B2, 1e-3)
 
+% risanje
 hold on
 plotBezier(B1, 0);
 plotBezier(B2, 0);
